@@ -5,6 +5,7 @@
 package pl.luccasso.advent2022.day14;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 import org.junit.jupiter.api.Test;
@@ -63,7 +64,19 @@ public class Day14Test {
     @Test
     public void JustCave() {
          var sc = new Scanner(testInput);
-         System.out.println(new Day14(sc).createCave(sc));
+          var sc2 = new Scanner(testInput);
+         System.out.println(new Day14(sc).createCave(sc2));
+        
+    }
+    
+    @Test
+    public void fillLine() {
+       
+        var day = new Day14(new Scanner(""));
+        System.out.println(day.fillLine(List.of(new Tile(10,10), new Tile (10,20))));
+        System.out.println(day.fillLine(List.of(new Tile(10,10), new Tile (20,10))));
+        System.out.println(day.fillLine(List.of(new Tile(10,10), new Tile (10,0))));
+        System.out.println(day.fillLine(List.of(new Tile(10,10), new Tile (0,10))));
         
     }
 }
