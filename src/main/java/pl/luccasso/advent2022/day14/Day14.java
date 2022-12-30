@@ -24,31 +24,24 @@ record Tile(int x, int y) {
 
 }
 
-public class Day14 {
-
-   // Map<Tile, TileType> cave;
+final class Cave{
+    
     Set<Tile> cave;
 
-    public Day14(Scanner scanner) {
+    int originalSize;
+    
+    public Cave(Scanner scanner) {
         cave = createCave(scanner);
+        originalSize = cave.size();
     }
-
-    public static void main(String[] args) throws FileNotFoundException {
-        new Day14(new Scanner(new File("day14.txt"))).calculate();
-    }
-
-    private void calculate() {
-
-    }
-
-    Set<Tile> createCave(Scanner scanner) {
+    
+    final Set<Tile> createCave(Scanner scanner) {
         var result = scanner.useDelimiter("\n")
                 .tokens()
                 .map(line -> Arrays.stream(line.split(" -> ")).map(this::processLine).toList())
                 .map(this::fillLine)
                 .flatMap(s->s.stream())
                 .collect(Collectors.toSet());
-        System.out.println(result);
         return result;
     }
 
@@ -58,7 +51,6 @@ public class Day14 {
             return null;
         } else {
           var pair = line.split(",");
-          System.out.println(pair[0] +  " : " + pair[1]);
           return new Tile(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]));
         }
     }
@@ -67,12 +59,10 @@ public class Day14 {
         var result = new LinkedList<Tile>();
         var iter = list.iterator();
         var previous = iter.next();
-        System.out.println("List = " + list);
         Tile next;
         while(iter.hasNext()){
             next = iter.next();
             Tile vector;
-            System.out.println("Next Tile = " + next);
             if(previous.x()==next.x()){
                 vector = previous.y()-next.y()<0 ? new Tile(0, 1): new Tile (0, -1);
             } else{
@@ -95,5 +85,45 @@ public class Day14 {
         } while (!current.equals(next));
         return result;
     }
+    
+    public boolean exist(Tile tile){
+        return cave.contains(tile);
+    }
+    
+    public Cave add(Tile tile){
+        cave.add(tile);
+        return this;
+    }
+    
+    public int size(){
+        return cave.size();
+    }
+    
+    public int getSand(){
+        return originalSize - cave.size();
+    }
+    
+}
+
+public class Day14 {
+
+  
+    Cave cave;
+    private final Tile start;
+
+    public Day14(Cave cave) {
+        this.cave = cave;
+        start = new Tile (500,0);
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        var cave = new Cave(new Scanner(new File("day14.txt")));
+        new Day14(cave).calculate();
+    }
+
+    private void calculate() {
+        
+    }
+
     
 }

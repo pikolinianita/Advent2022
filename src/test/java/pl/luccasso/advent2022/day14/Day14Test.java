@@ -4,6 +4,7 @@
  */
 package pl.luccasso.advent2022.day14;
 
+import static org.assertj.core.api.Assertions.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -22,61 +23,23 @@ public class Day14Test {
                        503,4 -> 502,4 -> 502,9 -> 494,9""";
     
     public Day14Test() {
-    }
-
-    @Test
-    public void testSomeMethod() {
-        var sc = new Scanner(testInput);
-        var sc2 = new Scanner(testInput);
-       // System.out.println(new Day14(sc).createCave(sc));
-        var day = new Day14(sc);
-      //System.out.println(Arrays.toString(testInput.split("[ ,/-/>]")));
-      //sc.tokens().toList().forEach(System.out::println);
-      sc2.tokens()
-              .toList()
-              .stream()
-              .peek(l-> System.out.println("this is line : " + l))
-              .map(day::processLine)
-              .filter(Objects::nonNull)
-              .peek(l-> System.out.println("this is sec line : " + l))
-              .toList();
-    }
-    
-    @Test
-    public void anotheTry() {
-         var day = new Day14(new Scanner(testInput));
-      testInput.lines()
-              .map(line-> Arrays.stream(line.split(" -> "))
-                      .map(day::processLine)
-                      .toList())
-              .peek(System.out::println)
-              .toList();
-        
-    }
-    
-    @Test
-    public void onemore() {
-        var sc = new Scanner(testInput).useDelimiter("\n");
-        sc.tokens().peek(l -> System.out.println("here " + l)).toList();
-       
-    }
-    
-    @Test
-    public void JustCave() {
-         var sc = new Scanner(testInput);
-          var sc2 = new Scanner(testInput);
-         System.out.println(new Day14(sc).createCave(sc2));
-        
-    }
+    }  
     
     @Test
     public void fillLine() {
        
-        var day = new Day14(new Scanner(""));
-        System.out.println(day.fillLine(List.of(new Tile(10,10), new Tile (10,20))));
-        System.out.println(day.fillLine(List.of(new Tile(10,10), new Tile (20,10))));
-        System.out.println(day.fillLine(List.of(new Tile(10,10), new Tile (10,0))));
-        System.out.println(day.fillLine(List.of(new Tile(10,10), new Tile (0,10))));
+        var cave = new Cave(new Scanner(""));
+        System.out.println(cave.fillLine(List.of(new Tile(10,10), new Tile (10,20))));
+        System.out.println(cave.fillLine(List.of(new Tile(10,10), new Tile (20,10))));
+        System.out.println(cave.fillLine(List.of(new Tile(10,10), new Tile (10,0))));
+        System.out.println(cave.fillLine(List.of(new Tile(10,10), new Tile (0,10))));
+        
+    }
+    
+    @Test
+    public void caveBuildTest() {
+        var cave = new Cave(new Scanner(testInput));
+        assertThat(cave.size()).isEqualTo(20);
         
     }
 }
