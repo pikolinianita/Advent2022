@@ -87,9 +87,9 @@ public class Day25Test {
     
     @Test
     void shouldCacheThrow(){
-        assertThatException()
-                .isThrownBy(() -> new Cache().get(28))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new Cache().get(28));
+                
     }
     
      @Test
