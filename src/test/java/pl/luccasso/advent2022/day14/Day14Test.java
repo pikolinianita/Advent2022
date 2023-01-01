@@ -5,12 +5,8 @@
 package pl.luccasso.advent2022.day14;
 
 import static org.assertj.core.api.Assertions.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
@@ -25,17 +21,7 @@ public class Day14Test {
     public Day14Test() {
     }
 
-    @Test
-    public void fillLine() {
-
-        var cave = new Cave(new Scanner(testInput));
-        System.out.println(cave.fillLine(List.of(new Tile(10, 10), new Tile(10, 20))));
-        System.out.println(cave.fillLine(List.of(new Tile(10, 10), new Tile(20, 10))));
-        System.out.println(cave.fillLine(List.of(new Tile(10, 10), new Tile(10, 0))));
-        System.out.println(cave.fillLine(List.of(new Tile(10, 10), new Tile(0, 10))));
-
-    }
-
+    
     @Test
     public void caveBuildTest() {
         var cave = new Cave(new Scanner(testInput));
@@ -48,8 +34,8 @@ public class Day14Test {
         var cave = new Cave(new Scanner(testInput));
         var day = new Day14(cave);
         var result = day.getP1Answer();
+        
         assertThat(result).isEqualTo(24);
-
     }
 
     @Test
@@ -57,6 +43,7 @@ public class Day14Test {
         var cave = new Cave(new Scanner(testInput));
         var day = new Day14(cave);
         var result = day.getP2Answer();
+        
         assertThat(result).isEqualTo(93);
     }
 
@@ -66,6 +53,7 @@ public class Day14Test {
         var day = new Day14(cave);
         var result1 = day.getP1Answer();
         var result2 = day.getP2Answer();
+        
         assertThat(result1).isEqualTo(24);
         assertThat(result2).isEqualTo(93);
     }
