@@ -57,6 +57,13 @@ public class Day5Test {
         assertThat(result.topLayer()).isEqualTo("CMZ");
     }
     
+     @Test
+    public void testRearrangeHeader9001(){
+        var parser = new Parser().parse(new Scanner(input));
+        var result = new Supplies(parser.getHeader()).rearrangeWithCrateMover9001(parser.getMoves());
+        assertThat(result.topLayer()).isEqualTo("MCD");
+    }
+    
     @Test
     void testLineParser(){
         var result = new Parser().toCommandLine("move 3 from 1 to 5");

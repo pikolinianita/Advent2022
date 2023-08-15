@@ -7,6 +7,7 @@ package pl.luccasso.advent2022.day5;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -62,6 +63,19 @@ class Supplies {
         }
         return this;
     }
+    
+    private Supplies moveWithCrateMover9001(int from, int to, int n) {
+        
+        var machine = new LinkedList<String>();
+        for (int i = 0; i < n; i++) {
+            machine.push(stacks[from - 1].pop());
+        }
+        
+        for (int i = 0; i < n; i++) {
+            stacks[to - 1].push(machine.pop());
+        }
+        return this;
+    }
 
     private Supplies push(int to, String s) {
         stacks[to - 1].push(s);
@@ -88,6 +102,11 @@ class Supplies {
         return this;
     }
 
+    public Supplies rearrangeWithCrateMover9001(List<CommandLine> commands) {
+        commands.forEach(c-> moveWithCrateMover9001(c.from(), c.to(), c.n()));
+        return this;
+    }
+
    
     
 }
@@ -107,8 +126,8 @@ class Parser {
                 .filter(s -> !"".equals(s))
                 .collect(Collectors.groupingBy(this::isCommand));
       //  System.out.println(lists);
-        header = lists.get(false);
-        moves = lists.get(true);
+        header = Collections.unmodifiableList(lists.get(false));
+        moves = Collections.unmodifiableList(lists.get(true));
         return this;
     }
 
@@ -142,10 +161,13 @@ public class Day5 {
     
     public static void main(String[] args) throws FileNotFoundException {
         var day = new Day5().parse("day05.txt");
-       var supplies = new Supplies(day.parser.getHeader());
+        var supplies = new Supplies(day.parser.getHeader());
         System.out.println(supplies.topLayer());
         supplies.rearrange(day.parser.getMoves());
-        System.out.println("result is: " + supplies.topLayer());
+        System.out.println("result for part 1 is: " + supplies.topLayer());
+         supplies = new Supplies(day.parser.getHeader());
+         supplies.rearrangeWithCrateMover9001(day.parser.getMoves());
+         System.out.println("result for part 2 is: " + supplies.topLayer());
     }
 
     private Day5 parse(String path) throws FileNotFoundException{
