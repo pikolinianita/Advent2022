@@ -47,7 +47,7 @@ public class Day4 {
     
     long solvePart2(List<String> list) {
        return list.stream()
-                .filter(s -> noOverlap(s))
+               .filter(s -> noOverlap(s))
                .count();
                
     }
@@ -92,9 +92,8 @@ public class Day4 {
          
          System.out.println(Arrays.toString(line) + " " + ((a[1] < a[2])|| (a[3] < a[0])));
         
-       return (a[1] < a[2])
-           || (a[3] < a[0]);
+       return !((a[1] < a[2])
+           || (a[3] < a[0]));
     }
-    //126 too low
     
 }

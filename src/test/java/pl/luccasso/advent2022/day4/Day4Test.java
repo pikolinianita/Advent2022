@@ -25,36 +25,31 @@ public class Day4Test {
     }
 
     @Test
-    public void testShuouldBeFalse() {
-       
+    public void testShuouldBeFalse() {       
         boolean result = new Day4("_").needReconsideration("2-3,4-5");
         assertThat(result).isFalse();
     }
     
     @Test
-    public void testshouldBeTrue() {
-       
+    public void testshouldBeTrue() {       
         boolean result = new Day4("_").needReconsideration("2-8,3-7");
         assertThat(result).isTrue();
     }
     
       @Test
-    public void testPart1() {
-       
+    public void testPart1() {       
         long result = new Day4("_").solvePart1(input.lines().toList());
         assertThat(result).isEqualTo(2);
     }
     
     @Test
-    public void testPart2() {
-       
+    public void testPart2() {       
         long result = new Day4("_").solvePart2(input.lines().toList());
         assertThat(result).isEqualTo(4);
     }
     
     @Test
-    public void testFail() {
-       
+    public void testFail() {       
         boolean result = new Day4("_").needReconsideration("16-80,80-87");
         assertThat(result).isFalse();
     }
