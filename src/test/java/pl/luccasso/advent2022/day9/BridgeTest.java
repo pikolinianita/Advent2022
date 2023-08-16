@@ -5,7 +5,6 @@
 package pl.luccasso.advent2022.day9;
 
 import java.util.Arrays;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
@@ -39,14 +38,14 @@ public class BridgeTest {
     @Test
     public void testPart1() {
        var bridge = new Bridge(Arrays.asList(testP1.split("\n")), 2);
-       var result = bridge.part1();
+       var result = bridge.simulate();
        assertThat(result).isEqualTo(13);
     }
     
     @Test
     public void testPart2() {
        var bridge = new Bridge(Arrays.asList(testP2.split("\n")), 10);
-       var result = bridge.part2();
+       var result = bridge.simulate();
        assertThat(result).isEqualTo(36);
     }
     

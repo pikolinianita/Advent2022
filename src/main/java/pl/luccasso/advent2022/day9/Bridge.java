@@ -19,11 +19,7 @@ import java.util.Set;
  * @author Nauczyciel
  */
 public class Bridge {
-
-    //Position Head;
-
-    //Position Tail;
-    
+   
     Position[] bridge;
 
     Set<Position> occupiedByTail;
@@ -51,12 +47,7 @@ public class Bridge {
         return new Command(Direction.valueOf(arr[0]), Integer.valueOf(arr[1]));
     }
 
-    int part1() {
-        doTurns();
-        return occupiedByTail.size();
-    }
-    
-    int part2(){
+    int simulate() {
         doTurns();
         return occupiedByTail.size();
     }
@@ -66,6 +57,7 @@ public class Bridge {
             for (int i = 0; i < command.amount(); i++) {
                 moveHead(command.dir());
                 adjustTail();
+                recordTailPosition();
             }
         });
     }
@@ -79,7 +71,10 @@ public class Bridge {
     private void adjustTail(){
         for (int i =1; i<size; i++){
             bridge[i] = adjustTile(bridge[i-1],bridge[i]);
-        }
+        }        
+    }
+    
+    private void recordTailPosition(){
         occupiedByTail.add(bridge[size-1]);
     }
     
@@ -105,9 +100,9 @@ public class Bridge {
                 .toList();
         System.out.println(input);
         
-        var result = new Bridge(input, 2).part1();
+        var result = new Bridge(input, 2).simulate();
         System.out.println("result for p1 is: " + result);
-        result = new Bridge(input, 10).part1();
+        result = new Bridge(input, 10).simulate();
         System.out.println("result for p2 is: " + result);
         
     }
