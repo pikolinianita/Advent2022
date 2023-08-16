@@ -15,24 +15,28 @@ public class Dir implements FSNode{
     FSNode root;
     List<FSNode> children;
     private final String name;
-
-    @Override
-    public int size() {
-        System.out.println("size: " + name);
-        return children.stream().mapToInt(node -> node.size()).sum();
-    }
-    
-    @Override
-    public String getName() {
-        return name;
-    }
+    int cachedSize;
 
     public Dir(FSNode root, String name) {
         this.root = root;
         this.name = name;
         children = new ArrayList<>();
+        cachedSize = -1;
+    }
+    
+    @Override
+    public int size() {
+        if (cachedSize < 0) {
+            cachedSize = children.stream().mapToInt(node -> node.size()).sum();
+        }
+        return cachedSize;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+    
     @Override
     public String toString() {
         return "Dir{" + "name=" + name + " " + children+'}';
@@ -44,7 +48,7 @@ public class Dir implements FSNode{
     }
 
     @Override
-    public FSNode enter(String name) {
+    public FSNode enterDir(String name) {
       return children.stream()
                 .filter(node -> node.getName().equals(name))
                 .filter(node -> node instanceof Dir)

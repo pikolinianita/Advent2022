@@ -12,6 +12,6 @@ public interface FSNode {
     int size();
     String getName();
     FSNode up();
-    FSNode enter(String name);
+    FSNode enterDir(String name);
     void add(FSNode node);
 }

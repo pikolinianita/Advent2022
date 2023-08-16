@@ -14,8 +14,10 @@ import java.util.List;
  */
 public class FileSystem {
     
+    //tree with directory an file structure
     FSNode root;
     
+    //list of all dirs, all tree levels
     List<Dir> dirs;
     
     int PART_ONE_THRESH = 100000;
@@ -59,11 +61,11 @@ public class FileSystem {
        FSNode current= root;
         for (String line : input) {
             if (line.startsWith("$ cd /")){
-                current= root;
+                current = root;
             } else if (line.startsWith("$ cd ..")){
                 current = current.up();
             } else if (line.startsWith("$ cd")){
-                current = current.enter(line.substring(5));
+                current = current.enterDir(line.substring(5));
             } else if (line.startsWith("$ ls")) {
                 //do nothing
             } else if (line.startsWith("dir")){

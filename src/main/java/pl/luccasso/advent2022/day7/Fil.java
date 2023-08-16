@@ -18,7 +18,6 @@ public class Fil implements FSNode {
     
     @Override
     public int size() {
-        System.out.println("size: " + name);
         return size;
     }
 
@@ -51,7 +50,7 @@ public class Fil implements FSNode {
     }
 
     @Override
-    public FSNode enter(String name) {
+    public FSNode enterDir(String name) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
