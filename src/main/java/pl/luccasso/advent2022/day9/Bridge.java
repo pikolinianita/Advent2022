@@ -20,22 +20,30 @@ import java.util.Set;
  */
 public class Bridge {
 
-    Position Head;
+    //Position Head;
 
-    Position Tail;
+    //Position Tail;
+    
+    Position[] bridge;
 
     Set<Position> occupiedByTail;
 
     List<Command> commandLines;
+    
+    int size;
 
-    public Bridge(List<String> commands) {
-        Head = new Position(0, 0);
-        Tail = new Position(0, 0);
+    public Bridge(List<String> commands, int size) {
+        var start = new Position(0, 0);
+        bridge = new Position[size];
+        for (int i = 0; i<size; i++){
+            bridge[i] = start;
+        }
         occupiedByTail = new HashSet<>();
-        occupiedByTail.add(Tail);
+        occupiedByTail.add(start);
         commandLines = commands.stream()
                 .map(this::parseLine)
                 .toList();
+        this.size = size;
     }
 
     private Command parseLine(String line) {
@@ -44,6 +52,11 @@ public class Bridge {
     }
 
     int part1() {
+        doTurns();
+        return occupiedByTail.size();
+    }
+    
+    int part2(){
         doTurns();
         return occupiedByTail.size();
     }
@@ -58,24 +71,31 @@ public class Bridge {
     }
 
     private void moveHead(Direction dir) {
-        Head = new Position(
-                Head.x() + dir.dx(),
-                Head.y() + dir.dy());
+        bridge[0] = new Position(
+                bridge[0].x() + dir.dx(),
+                bridge[0].y() + dir.dy());
     }
 
-    private void adjustTail() {
+    private void adjustTail(){
+        for (int i =1; i<size; i++){
+            bridge[i] = adjustTile(bridge[i-1],bridge[i]);
+        }
+        occupiedByTail.add(bridge[size-1]);
+    }
+    
+    private Position adjustTile(Position Head, Position Tail) {
         var dx = Head.x() - Tail.x();
         var dy = Head.y() - Tail.y();
         if ((abs(dx) < 2) && (abs(dy) < 2)) {
-            return;
+            return Tail;
         } else if (dx == 0) {
-            Tail = new Position(Tail.x(), Tail.y() + signum(dy));
+            return new Position(Tail.x(), Tail.y() + signum(dy));
         } else if (dy == 0) {
-            Tail = new Position(Tail.x() + signum(dx), Tail.y());
+            return  new Position(Tail.x() + signum(dx), Tail.y());
         } else {
-            Tail = new Position(Tail.x() + signum(dx), Tail.y() + signum(dy));
+            return new Position(Tail.x() + signum(dx), Tail.y() + signum(dy));
         }
-        occupiedByTail.add(Tail);
+        
     }
     
     public static void main(String[] args) throws FileNotFoundException {
@@ -85,8 +105,11 @@ public class Bridge {
                 .toList();
         System.out.println(input);
         
-        var result = new Bridge(input).part1();
+        var result = new Bridge(input, 2).part1();
         System.out.println("result for p1 is: " + result);
+        result = new Bridge(input, 10).part1();
+        System.out.println("result for p2 is: " + result);
+        
     }
 
 }
