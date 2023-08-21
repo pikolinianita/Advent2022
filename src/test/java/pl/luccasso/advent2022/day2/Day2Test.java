@@ -5,7 +5,6 @@
 package pl.luccasso.advent2022.day2;
 
 import java.util.List;
-import java.util.Scanner;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 

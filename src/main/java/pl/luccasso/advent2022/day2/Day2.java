@@ -17,11 +17,11 @@ import java.util.function.ToIntFunction;
  */
 enum Hand {
 
-    PAPER(2),
     ROCK(1),
+    PAPER(2),
     SCISSOR(3);
 
-    public int point;
+    private int point;
 
     private static final Map<Hand, Hand> winsWith = Map.of(PAPER, ROCK,
             ROCK, SCISSOR,
@@ -46,6 +46,10 @@ enum Hand {
         return loseWith.get(this);
     }
 
+    public int getPoint() {
+        return point;
+    }
+
     static int score(Hand other, Hand me) {
         if (other.equals(me)) {
             return 3;
@@ -67,7 +71,7 @@ public class Day2 {
     private List<String> input;
     private final String path;
 
-    static Map<String, Hand> Translate = Map.of(
+    static Map<String, Hand> translate = Map.of(
             "A", Hand.ROCK,
             "B", Hand.PAPER,
             "C", Hand.SCISSOR,
@@ -77,29 +81,31 @@ public class Day2 {
 
     static int score(String line) {
         var arr = line.split(" ");
-        return Hand.score(Translate.get(arr[0]), Translate.get(arr[1])) + Translate.get(arr[1]).point;
+        return Hand.score(translate.get(arr[0]), translate.get(arr[1])) + translate.get(arr[1]).getPoint();
     }
 
     static int score2(String line) {
         var arr = line.split(" ");
-        return findHand(arr[0], arr[1]).point + matchValueP2(arr[1]);
+        return findHand(arr[0], arr[1]).getPoint() + matchValueP2(arr[1]);
     }
 
     private static int matchValueP2(String value) {
-        return value.equals("X") ? 0
-                : (value.equals("Y") ? 3 : 6);
+        return switch (value) {
+            case "X" -> 0;
+            case "Y" -> 3;
+            case "Z" -> 6;
+            default ->
+                throw new IllegalArgumentException("wrong String + value");
+        };
     }
 
     private static Hand findHand(String other, String me) {
-        var enemy = Translate.get(other);
+        var enemy = translate.get(other);
 
         return switch (me) {
-            case "Y" ->
-                enemy;
-            case "X" ->
-                enemy.findWorse();
-            case "Z" ->
-                enemy.findBetter();
+            case "Y" -> enemy;
+            case "X" -> enemy.findWorse();
+            case "Z" -> enemy.findBetter();
             default ->
                 throw new IllegalArgumentException("Wrong input value: " + me);
         };
@@ -124,15 +130,17 @@ public class Day2 {
     }
 
     private Day2 loadFile() throws FileNotFoundException {
-        input = new Scanner(new File(path))
-                .useDelimiter("\n")
-                .tokens()
-                .toList();
+        try (var sc = new Scanner(new File(path))) {
+            input = sc
+                    .useDelimiter("\n")
+                    .tokens()
+                    .toList();
+        }
         return this;
     }
-    
-    int calculate(List<String> source, ToIntFunction<String> command){
-          return source.stream()
+
+    int calculate(List<String> source, ToIntFunction<String> command) {
+        return source.stream()
                 .mapToInt(command)
                 .sum();
     }

@@ -34,13 +34,21 @@ public class Day1 {
     }
 
     long getP2Result() throws FileNotFoundException {
-        loadFile(path);
-        return calculateP2(sc);
+        try {
+            loadFile(path);
+            return calculateP2(sc);
+        } finally {
+            sc.close();
+        }
     }
 
     long getP1Result() throws FileNotFoundException {
-        loadFile(path);
-        return calculateP1(sc);
+        try {
+            loadFile(path);
+            return calculateP1(sc);
+        } finally {
+            sc.close();
+        }
     }
 
     private Day1 loadFile(String path) throws FileNotFoundException {
@@ -78,11 +86,10 @@ public class Day1 {
             }
         }
         queue.offer(tmp);
-        
+
         return queue.stream()
                 .sorted(Comparator.reverseOrder())
                 .limit(3)
-                .reduce((a, b) -> a + b)
-                .get();
+                .reduce(0,(a, b) -> a + b);
     }
 }
