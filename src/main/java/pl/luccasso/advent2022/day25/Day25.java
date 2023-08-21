@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import static pl.luccasso.advent2022.day25.Day25.cache;
 
 /**
  *
@@ -22,21 +21,15 @@ class Appendix {
 
     public Appendix append(int number) {
         value.append(switch (number) {
-            case 2 ->
-                "2";
-            case 1 ->
-                "1";
-            case 0 ->
-                value.isEmpty() ? "" : "0";
-            case -1 ->
-                "-";
-            case -2 ->
-                "=";
+            case 2 -> "2";
+            case 1 -> "1";
+            case 0 -> value.isEmpty() ? "" : "0";
+            case -1 -> "-";
+            case -2 -> "=";
             default ->
                 throw new IllegalArgumentException("wrong value in Apppendix!!! : " + number);
         });
         return this;
-
     }
 
     @Override
@@ -48,7 +41,7 @@ class Appendix {
 
 class Cache {
 
-    final int MAX_POWER = 27;
+    private static final int MAX_POWER = 27;
 
     private final Map<Integer, Long> cache;
     private int max;
@@ -67,9 +60,7 @@ class Cache {
             while (power > max) {
                 max++;
                 cache.put(max, cache.get(max - 1) * 5);
-                System.out.println("power UP: " + max + " : " + cache.get(max) + " : " + cache.get(max) / cache.get(max - 1));
             }
-
         }
         return cache.get(power);
     }
@@ -79,7 +70,7 @@ class Encoder {
 
     private final Cache cache;
 
-    private final pl.luccasso.advent2022.day25.Appendix appendix;
+    private final Appendix appendix;
 
     private long leftoverValue;
 
@@ -111,7 +102,6 @@ class Encoder {
             power--;
         }
         return appendix.toString();
-
     }
 
     private void adjustSign() {
@@ -119,7 +109,6 @@ class Encoder {
             sign *= -1;
             leftoverValue *= -1;
         }
-
     }
 
     private void nextDigitIsPlusMinus(int signValue) {
@@ -133,6 +122,8 @@ public class Day25 {
 
     static Cache cache = new Cache();
 
+    private List<String> lines;
+    
     public static long decode(String snafu) {
 
         var position = snafu.length();
@@ -145,38 +136,32 @@ public class Day25 {
             power++;
         }
         if (result < 0) {
-            throw new RuntimeException("long too short" + result);
+            throw new IllegalArgumentException("long too short!!! decode: " + result);
         }
         return result;
     }
 
     private static int getNumber(String sign) {
         return switch (sign) {
-            case "0" ->
-                0;
-            case "1" ->
-                1;
-            case "2" ->
-                2;
-            case "-" ->
-                -1;
-            case "=" ->
-                -2;
+            case "0" -> 0;
+            case "1" -> 1;
+            case "2" -> 2;
+            case "-" -> -1;
+            case "=" -> -2;
             default ->
-                throw new RuntimeException("should no happen get number " + sign);
+                throw new IllegalArgumentException("should no happen! getNumber " + sign);
         };
     }
 
     public static String encode(long decimal) {
-
         return new Encoder(cache).encode(decimal);
     }
 
-    private List<String> lines;
-
     private Day25 loadLines(String path) throws FileNotFoundException {
-        lines = new Scanner(new File(path)).tokens().toList();
-        return this;
+        try (var sc = new Scanner(new File(path))) {
+            lines = sc.tokens().toList();
+            return this;
+        }
     }
 
     String calculateP1(List<String> lines) {

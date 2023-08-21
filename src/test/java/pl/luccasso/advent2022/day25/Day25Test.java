@@ -8,7 +8,6 @@ import java.util.Scanner;
 import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -17,7 +16,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author piko
  */
-public class Day25Test {
+class Day25Test {
     
     String testInput = """
                        1=-0-2
@@ -63,23 +62,16 @@ public class Day25Test {
                 Arguments.of(314159265, "1121-1110-1=0")
         );
     }
-    
-    
-
-    public Day25Test() {
-    }
 
     @ParameterizedTest
     @MethodSource("provideSNAFU")
-    public void testDecode(int decimal, String snafu) {
-        System.out.println(snafu);
+    void testDecode(int decimal, String snafu) {
          assertThat(Day25.decode(snafu)).as(snafu + " should be " + decimal).isEqualTo(decimal);
     }
 
     @ParameterizedTest
     @MethodSource("provideSNAFU")
-    public void testEncode(int decimal, String snafu) {
-        System.out.println(snafu);
+    void testEncode(int decimal, String snafu) {
          assertThat(Day25.encode(decimal))
                  .as("" + decimal + " should be " + snafu)
                  .isEqualTo(snafu);
@@ -88,13 +80,12 @@ public class Day25Test {
     @Test
     void shouldCacheThrow(){
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> new Cache().get(28));
-                
+                .isThrownBy(() -> new Cache().get(28));               
     }
     
      @Test
-    void runOnce(){
-        assertThat ( new Day25().calculateP1(new Scanner(testInput).tokens().toList()))
+    void runTestData(){
+        assertThat (new Day25().calculateP1(new Scanner(testInput).tokens().toList()))
                 .as("full p1 test data")
                 .isEqualTo("2=-1=0");
     }
