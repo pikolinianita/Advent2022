@@ -8,6 +8,6 @@ package pl.luccasso.advent2022.day12;
  *
  * @author Teresa
  */
-public record Position(int x, int y){};
+public record Position(int x, int y){}
     
 

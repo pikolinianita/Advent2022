@@ -4,13 +4,11 @@
  */
 package pl.luccasso.advent2022.day12;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -43,7 +41,6 @@ public class Dijkstra implements Solver {
     
     @Override
     public int solve(Position start, Position end, List<List<Integer>> board) {
-        System.out.println("solve");
         this.start = start;
         this.end = end;
         this.board = board;
@@ -53,8 +50,6 @@ public class Dijkstra implements Solver {
         visited = new HashMap<>();
         toVisit = new LinkedList<>();
         strategy.qeueuSetup();
-       // visited.put(this.start, 0);
-       // toVisit.offer(start);
         return doLoop();
 
     }
@@ -72,7 +67,6 @@ public class Dijkstra implements Solver {
     }
 
     private void pushNextTiles(Position current) {
-        System.out.println("processing: " + current);
         var dist = visited.get(current);
         Stream.of(new Position(current.x() + 1, current.y()),
                 new Position(current.x() - 1, current.y()),
@@ -80,7 +74,6 @@ public class Dijkstra implements Solver {
                 new Position(current.x(), current.y() - 1))
                 .filter(this::isOnBoard)
                 .filter(this::isUnvisited)
-                .peek(System.out::println)
                 .filter(next -> strategy.isReachable(current, next))
                 .forEach(next -> push(next, dist + 1));
 
@@ -95,8 +88,7 @@ public class Dijkstra implements Solver {
     }
 
     boolean isReachable(Position current, Position next) {
-        var result = (getValue(next) - getValue(current)) < 2;
-        return result;
+        return (getValue(next) - getValue(current)) < 2;
     }
 
     void push(Position pos, int distance) {
@@ -118,7 +110,6 @@ public class Dijkstra implements Solver {
 
         @Override
         public boolean hasEnded(Position pos) {
-            System.out.println(pos);
             return pos.equals(end);
         }
 

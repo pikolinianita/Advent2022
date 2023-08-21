@@ -4,6 +4,7 @@
  */
 package pl.luccasso.advent2022.day12;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -25,8 +26,7 @@ public class DijkstraTest {
     public void testSomeMethod() {
         var dijkstra = Dijkstra.withStrategyPart(1);
         var result = dijkstra.solve(sut.start, sut.end, sut.board);
-        System.out.println(result);
-        System.out.println(dijkstra);
+        assertThat(result).isEqualTo(31);
     }
     
 }

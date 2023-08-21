@@ -80,9 +80,7 @@ public class PathfindingTest {
     @Test
     void MyRealInput() {
         var sut = new Pathfinding(realInput,1);
-        System.out.println(sut);
         var result = sut.solve();
-        System.out.println(result);
         assertThat(result).isEqualTo(468);
     }
 

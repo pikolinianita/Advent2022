@@ -16,9 +16,9 @@ import static java.util.stream.Collectors.*;
  */
 public class Pathfinding {
 
-    final int CODE_POINT_a = 97;
-    final int VALUE_S = -14;
-    final int VALUE_E = -28;
+    private static final int CODE_POINT_SMALL_A = 97;
+    private static final int VALUE_S = -14;
+    private static final int VALUE_E = -28;
     
     final List<List<Integer>> board;
     
@@ -47,7 +47,7 @@ public class Pathfinding {
 
     private  List<Integer> processLine(String str) {
         return Arrays.stream(str.split(""))
-                .map(ch -> ch.codePointAt(0)-CODE_POINT_a)
+                .map(ch -> ch.codePointAt(0)-CODE_POINT_SMALL_A)
                 .collect(toCollection(ArrayList::new));
     }
     
