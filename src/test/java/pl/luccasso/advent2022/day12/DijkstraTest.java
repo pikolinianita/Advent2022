@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Teresa
  */
-public class DijkstraTest {
+class DijkstraTest {
     
     String testInput = """
                        Sabqponm
@@ -23,7 +23,7 @@ public class DijkstraTest {
     Pathfinding sut = new Pathfinding(testInput,1);
 
     @Test
-    public void testSomeMethod() {
+    void testSomeMethod() {
         var dijkstra = Dijkstra.withStrategyPart(1);
         var result = dijkstra.solve(sut.start, sut.end, sut.board);
         assertThat(result).isEqualTo(31);

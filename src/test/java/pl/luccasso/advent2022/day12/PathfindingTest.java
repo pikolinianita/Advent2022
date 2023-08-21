@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Teresa
  */
-public class PathfindingTest {
+class PathfindingTest {
 
     String testInput = """
                        Sabqponm
