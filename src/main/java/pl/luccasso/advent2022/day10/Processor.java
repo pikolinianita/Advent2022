@@ -17,8 +17,8 @@ import java.util.Map;
 public class Processor {
     
     List<Integer> controlPoints = List.of(20,60,100,140,180,220);
-    int INITIAL_VALUE = 1;
-    int FINAL_TIME = 240;
+    private static final int INITIAL_VALUE = 1;
+    private static final int FINAL_TIME = 240;
     Map<Integer, Integer> values;
     Screen screen;
 
@@ -50,36 +50,36 @@ public class Processor {
                 .sum();
     }
     
-
-
-public void part2(){
-    for (int i = 0; i < 6; i++)
-        fillRow(screen.screen[i],i*40);
-    System.out.println(screen.toString());
-}
+    public void part2() {
+        for (int i = 0; i < 6; i++) {
+            fillRow(screen.display[i], i * 40);
+        }
+        System.out.println(screen.toString());
+    }
 
     private void fillRow(String[] row, int offset) {
-        for (int i=0; i<40; i++){
-            boolean check = abs(i-values.get(i+1+offset)) < 2;
-            if(check){
+        for (int i = 0; i < 40; i++) {
+            boolean check = abs(i - values.get(i + 1 + offset)) < 2;
+            if (check) {
                 row[i] = "#";
             } else {
                 row[i] = ".";
             }
         }
     }
+    
 }
 
 class Screen{
-    String[][] screen;
+    String[][] display;
 
     public Screen() {
-        screen = new String[6][40];
+        display = new String[6][40];
     }
  
     @Override
     public String toString() {
-        return Arrays.asList(screen)
+        return Arrays.asList(display)
                 .stream()
                 .map(arr -> ("||" + Arrays.toString(arr) + "||\n"))
                 .reduce(String::concat)

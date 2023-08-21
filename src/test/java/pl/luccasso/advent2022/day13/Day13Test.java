@@ -19,7 +19,7 @@ import org.junit.jupiter.params.provider.ValueSource;
  *
  * @author piko
  */
-public class Day13Test {
+class Day13Test {
 
     String fullInput = """
                        [1,1,3,1,1]
@@ -45,9 +45,6 @@ public class Day13Test {
                        
                        [1,[2,[3,[4,[5,6,7]]]],8,9]
                        [1,[2,[3,[4,[5,6,0]]]],8,9]""";
-
-    public Day13Test() {
-    }
 
     @DisplayName("Should parse packet line")
     @ParameterizedTest(name = "{index} => message=''{0}''")
@@ -101,7 +98,7 @@ public class Day13Test {
     }
 
     @Test
-    public void calculateP1Test() {
+    void calculateP1Test() {
         
         var x = new Scanner(fullInput).tokens().toList();
         var result = new Day13(x).calculateP1();
@@ -109,7 +106,7 @@ public class Day13Test {
     }
     
     @Test
-    public void calculateP2Test() {
+    void calculateP2Test() {
         
         var x = new Scanner(fullInput).tokens().toList();
         var result = new Day13(x).calculateP2();

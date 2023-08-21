@@ -27,31 +27,31 @@ interface Node {
 
 class NodeList implements Node {
 
-    Queue<Node> nodeList;
+    Queue<Node> nodes;
 
     public NodeList() {
-        nodeList = new LinkedList<>();
+        nodes = new LinkedList<>();
     }
 
     @Override
     public String toString() {
-        return nodeList.toString();
+        return nodes.toString();
     }
 
     @Override
     public Node append(Node node) {
-        nodeList.add(node);
+        nodes.add(node);
         return this;
     }
 
     @Override
     public int size() {
-        return nodeList.size();
+        return nodes.size();
     }
 
     @Override
     public Iterator<Node> iterator() {
-        return nodeList.iterator();
+        return nodes.iterator();
     }
 
 }
@@ -76,7 +76,7 @@ class NodeNumber implements Node {
 
     @Override
     public Node append(Node node) {
-        throw new IllegalStateException("Should no appand to number!!!"); //To change body of generated methods, choose Tools | Templates.
+        throw new IllegalStateException("Should no appand to number!!!"); 
     }
 
     @Override
@@ -111,23 +111,24 @@ class NodeComparator implements Comparator<Node> {
             return compare(new NodeList().append(o1), o2);
         } //o1 list, o2 number
         else if (o2.size() == -1) {
-           return compare(o1, new NodeList().append(o2));
+            return compare(o1, new NodeList().append(o2));
+        } else{        
+        throw new IllegalArgumentException("should not happen: ");
         }
-
-        throw new RuntimeException("should not happen");
-
     }
 
 }
 
 class PacketBuilder {
 
+    private PacketBuilder() {
+        //utility class
+    }
+
     static Node createPacket(String line) {
         var iterator = Arrays.asList(line.split("")).iterator();
         iterator.next();
-        var result = createNode(iterator);
-
-        return result;
+        return createNode(iterator);
     }
 
     private static Node createNode(Iterator<String> iterator) {
@@ -137,31 +138,24 @@ class PacketBuilder {
         Node result = new NodeList();
         while (iterator.hasNext()) {
             sign = iterator.next();
-//            System.out.println("sign: " + sign);
-//            System.out.println("result: " + result);
             switch (sign) {
-                case "1", "2", "3","4","5", "6","7","8","9","0":
-                    temporaryNumber += sign;
-                    break;
-                case ",":
+                case "1", "2", "3","4","5", "6","7","8","9","0" -> temporaryNumber += sign;
+                case "," -> {
                     if (!"".equals(temporaryNumber)) {
                         result.append(new NodeNumber(Integer.parseInt(temporaryNumber)));
                         temporaryNumber = "";
                     }
-                    break;
-
-                case "[":
-                    result.append(createNode(iterator));
-                    break;
-                case "]":
+                }
+                case "[" -> result.append(createNode(iterator));
+                case "]" -> {
                     if (!"".equals(temporaryNumber)) {
                         result.append(new NodeNumber(Integer.parseInt(temporaryNumber)));
                     }
                     return result;
+                }
             }
         }
-        System.out.println(result);
-        System.out.println(iterator.toString());
+
         throw new RuntimeException("Parser fail!!!");
     }
 
@@ -200,15 +194,16 @@ public class Day13 {
     }
     
      public Day13(List<String> lines) {
-         this.lines = lines;
+        this.lines = lines;
         this.comparator = new NodeComparator();
     }
      
     public static void main(String[] args) throws FileNotFoundException {
-       var day = new Day13 ( new Scanner(new File("day13.txt")).tokens().toList());
-       System.out.println("day13 part 1 result is: " + day.calculateP1());
-       System.out.println("day13 part 2 result is: " + day.calculateP2());
-       
+        try (var sc = new Scanner(new File("day13.txt"))) {
+            var day = new Day13(sc.tokens().toList());
+            System.out.println("day13 part 1 result is: " + day.calculateP1());
+            System.out.println("day13 part 2 result is: " + day.calculateP2());
+        }
     }
     
 }

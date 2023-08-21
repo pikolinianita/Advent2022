@@ -4,7 +4,6 @@
  */
 package pl.luccasso.advent2022.day10;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
@@ -12,32 +11,30 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Nauczyciel
  */
-public class ProcessorTest {
+class ProcessorTest {
     
     @Test
-    public void testPart1() {
+    void testPart1() {
         var result = new Processor(Data.testInput.split("\n")).part1();
         assertThat(result).isEqualTo(13140);
     }
     
     @Test
-    public void testERealMethodPart1() {
+    void testERealMethodPart1() {
         assertThat(new Processor(Data.realInput.split("\n")).part1())
                 .isEqualTo(11780);
     }
     
     @Test
-     public void testERealMethodPart2() {
-         System.out.println("--------------------------------------Real------------------------------------");
+     void testRealMethodPart2() {
         new Processor(Data.realInput.split("\n")).part2();
-        System.out.println("--------------------------------------Real------------------------------------");
+        //see system Output
      }
      
     @Test
-    public void testPart2() {
-         System.out.println("--------------------------------------Test------------------------------------");
+    void testTestPart2() {
         new Processor(Data.testInput.split("\n")).part2();
-         System.out.println("--------------------------------------Test------------------------------------");
+        //see system output
     }
     
 }
