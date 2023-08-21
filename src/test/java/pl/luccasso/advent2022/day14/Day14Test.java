@@ -12,25 +12,21 @@ import org.junit.jupiter.api.Test;
  *
  * @author piko
  */
-public class Day14Test {
+class Day14Test {
 
     String testInput = """
                        498,4 -> 498,6 -> 496,6
                        503,4 -> 502,4 -> 502,9 -> 494,9""";
-
-    public Day14Test() {
-    }
-
     
     @Test
-    public void caveBuildTest() {
+    void caveBuildTest() {
         var cave = new Cave(new Scanner(testInput));
         assertThat(cave.size()).isEqualTo(20);
 
     }
 
     @Test
-    public void caveSolveTest() {
+    void caveSolveTest() {
         var cave = new Cave(new Scanner(testInput));
         var day = new Day14(cave);
         var result = day.getP1Answer();
@@ -39,7 +35,7 @@ public class Day14Test {
     }
 
     @Test
-    public void caveSolveTestp2() {
+    void caveSolveTestp2() {
         var cave = new Cave(new Scanner(testInput));
         var day = new Day14(cave);
         var result = day.getP2Answer();
@@ -48,7 +44,7 @@ public class Day14Test {
     }
 
     @Test
-    public void caveSolveTestBoth() {
+    void caveSolveTestBoth() {
         var cave = new Cave(new Scanner(testInput));
         var day = new Day14(cave);
         var result1 = day.getP1Answer();
@@ -59,7 +55,7 @@ public class Day14Test {
     }
     
     @Test
-    public void caveSolveTestBothReversed() {
+    void caveSolveTestBothReversed() {
         var cave = new Cave(new Scanner(testInput));
         var day = new Day14(cave);
         var result2 = day.getP2Answer();

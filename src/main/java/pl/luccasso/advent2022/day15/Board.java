@@ -29,34 +29,32 @@ public class Board {
     }    
     
     public int part1(int row){
-        var countBeaconless = buildRow(row)
-               .count();
-        return countBeaconless;
+        return buildRow(row).countNoBeacon();
     }
     
     public long part2(int n) {
         for (int i = 0; i < n; i++) {
             var result = buildRow(i).verify(n);
             if (result > 0) {
-                return result * 4000000 + i;
+                return result * 4000000L + i;
             }
         }
-        throw new RuntimeException("part 2 mistake");
+        throw new IllegalStateException("part 2 mistake");
     }
 
     private RangesInRow buildRow(int row) {
         return sensors.stream()
-                .filter(s -> s.rowInRange(row))
-                .map(s -> s.rangeInRow(row))
+                .filter(s -> s.hasUnoccupiedInRow(row))
+                .map(s -> s.findImpossiblesInRow(row))
                 .reduce(new RangesInRow(),
-                        ( RangesInRow RiR,RangeR r)-> RiR.add(r),
-                        (r,rx) -> {throw new RuntimeException("no Parallel");});
+                        (RangesInRow riR, Range r)-> riR.add(r),
+                        (r,rx) -> {throw new IllegalStateException("no Parallel");});
     }
 }
 
 record Pos(int x, int y){};
 
-record RangeR(int left, int right){};
+record Range(int left, int right){};
 
 record Sensor(Pos sensor, Pos beacon){
     
@@ -64,17 +62,17 @@ Sensor(int x, int y, int bx, int by){
     this(new Pos(x,y), new Pos(bx, by));
     }
 
-    int manhattanR (){
+    int manhattanRange (){
         return abs(sensor.x()-beacon.x())+abs(sensor.y() - beacon.y());
     }
     
-    boolean rowInRange(int row){
-        var m = manhattanR();
+    boolean hasUnoccupiedInRow(int row){
+        var m = manhattanRange();
         return (sensor.y() <= row) && (sensor.y() + m >= row) || (sensor.y() >= row) && (sensor.y() - m <= row);
     }
     
-    RangeR rangeInRow(int row){
-        int width = manhattanR() - abs(row - sensor.y());
-        return new RangeR(sensor.x() - width, sensor.x() + width);
+    Range findImpossiblesInRow(int row){
+        int width = manhattanRange() - abs(row - sensor.y());
+        return new Range(sensor.x() - width, sensor.x() + width);
     }
 }

@@ -4,9 +4,7 @@
  */
 package pl.luccasso.advent2022.day15;
 
-import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
@@ -14,7 +12,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nauczyciel
  */
-public class BoardTest {
+class BoardTest {
     
    String input = """
                   Sensor at x=3999724, y=2000469: closest beacon is at x=4281123, y=2282046
@@ -62,7 +60,7 @@ public class BoardTest {
 
     
      @Test
-    public void testSomeMethod2() {
+    void testSomeMethod2() {
        var board = new Board(testInput.split("\n"));
        var result = board.part1(10) -1 ;
        assertThat(result).isEqualTo(26);
@@ -70,7 +68,7 @@ public class BoardTest {
     }
     
      @Test
-    public void testRealData() {
+    void testRealData() {
        var board = new Board(input.split("\n"));
        var result = board.part1(2000000) -1;
        assertThat(result).isEqualTo(5176944);
@@ -78,7 +76,7 @@ public class BoardTest {
     }
     
     @Test
-    public void testP2TestBruteForce() {
+    void testP2TestBruteForce() {
         var board = new Board(testInput.split("\n"));
         var result = board.part2(20);
         System.out.println(result);
@@ -86,19 +84,19 @@ public class BoardTest {
     }
      
      @Test
-     public void testP2FullBruteForce() {
+     void testP2FullBruteForce() {
        var board = new Board(input.split("\n"));       
             var result = board.part2(4000000);            
             assertThat(result).isEqualTo(13350458933732L);
      }
     
     @Test
-    public void testMax() {
-        assertThat(new Sensor(0, 11, 2, 10).rowInRange(14)).isTrue();
+    void testMax() {
+        assertThat(new Sensor(0, 11, 2, 10).hasUnoccupiedInRow(14)).isTrue();
     }
     
     @Test
-    public void testEqualRow() {
-        assertThat(new Sensor(0, 11, 2, 10).rowInRange(11)).isTrue();
+    void testEqualRow() {
+        assertThat(new Sensor(0, 11, 2, 10).hasUnoccupiedInRow(11)).isTrue();
     }
 }

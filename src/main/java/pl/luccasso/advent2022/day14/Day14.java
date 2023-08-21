@@ -21,35 +21,32 @@ enum TileType {
     SAND, ROCK
 }
 
-record Tile(int x, int y) {
-
-}
+record Tile(int x, int y) {}
 
 final class Cave {
 
-    Set<Tile> cave;
+    private Set<Tile> cavePlan;
 
-    final private Set<Tile> emptyCave;
+    private final Set<Tile> emptyCave;
 
-    int originalSize;
+    private final int originalSize;
 
-    int maxDepth;
+    private final int maxDepth;
 
     public Cave(Scanner scanner) {
-        cave = createCave(scanner);
-        emptyCave = Collections.unmodifiableSet(new HashSet<>(cave));
+        cavePlan = createCave(scanner);
+        emptyCave = Collections.unmodifiableSet(new HashSet<>(cavePlan));
         originalSize = emptyCave.size();
         maxDepth = emptyCave.stream().mapToInt(Tile::y).max().getAsInt();
     }
 
     final Set<Tile> createCave(Scanner scanner) {
-        var result = scanner.useDelimiter("\n")
+      return  scanner.useDelimiter("\n")
                 .tokens()
                 .map(line -> Arrays.stream(line.split(" -> ")).map(this::processLine).toList())
                 .map(this::fillLine)
                 .flatMap(s -> s.stream())
                 .collect(Collectors.toSet());
-        return result;
     }
 
     Tile processLine(String line) {
@@ -94,32 +91,32 @@ final class Cave {
     }
 
     public boolean exist(Tile tile) {
-        return cave.contains(tile);
+        return cavePlan.contains(tile);
     }
 
     public boolean exist(int x, int y) {
-        return cave.contains(new Tile(x, y));
+        return cavePlan.contains(new Tile(x, y));
     }
 
     public Cave add(Tile tile) {
-        cave.add(tile);
+        cavePlan.add(tile);
         return this;
     }
 
     public int size() {
-        return cave.size();
+        return cavePlan.size();
     }
 
     public int getSand() {
-        return cave.size() - originalSize;
+        return cavePlan.size() - originalSize;
     }
 
-    public int getMaxDeepth() {
+    public int maxDepth() {
         return maxDepth;
     }
 
     public Cave resetCave() {
-        cave = new HashSet<>(emptyCave);
+        cavePlan = new HashSet<>(emptyCave);
         return this;
     }
 
@@ -163,7 +160,7 @@ public class Day14 {
     }
 
     void drop(Tile current) {
-        if (current.y() > cave.maxDepth || finishedP1) {
+        if (current.y() > cave.maxDepth() || finishedP1) {
             finishedP1 = true;
             return;
         }
@@ -174,7 +171,7 @@ public class Day14 {
     }
 
     void dropP2(Tile current) {
-        if (current.y() > cave.maxDepth + 1) {
+        if (current.y() > cave.maxDepth() + 1) {
             return;
         }
         tryDropOnThreeTiles(current, this::dropP2);
