@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -20,39 +21,40 @@ public class KeepAway {
 
     List<Monkey> monkeys;
 
-    final private String input;
+    private final String input;
 
-    Pattern numberPatt = Pattern.compile("[0-9]+");
+    Pattern numberPatt = Pattern.compile("\\d+");
 
     long masterDivider;
 
     public KeepAway(String input) {
         this.input = input;
-
     }
 
-    private List<Monkey> makeMonkeys(String input, Function<String, Function<Long, Long>> worryFunction) {
+    private List<Monkey> makeMonkeys(String input, Function<String, UnaryOperator<Long>> worryFunction) {
         return Arrays.stream(input.split("\n\n"))
                 .map(description -> makeMonkey(description, worryFunction))
                 .toList();
     }
 
-    private Monkey makeMonkey(String description, Function<String, Function<Long, Long>> worryFunction) {
+    private Monkey makeMonkey(String description, Function<String, UnaryOperator<Long>> worryFunction) {
         var monkeyArr = description.split("\n");
-        getNumber(monkeyArr[0]);
 
-        var monkey = new Monkey(
+        return new Monkey(
                 getNumber(monkeyArr[0]),
                 getManyNumbers(monkeyArr[1]),
                 worryFunction.apply(monkeyArr[2]),
                 getNumber(monkeyArr[3]),
                 getNumber(monkeyArr[4]),
                 getNumber(monkeyArr[5]));
-        return monkey;
     }
 
     private long getNumber(String line) {
-        return parseLong(numberPatt.matcher(line).results().map(mat -> mat.group()).findAny().get());
+        return parseLong(numberPatt.matcher(line)
+                            .results()
+                            .map(mat -> mat.group())
+                            .findAny()
+                            .orElseThrow(() -> new IllegalArgumentException("On number in: " + line)));
     }
 
     private List<Long> getManyNumbers(String line) {
@@ -62,7 +64,7 @@ public class KeepAway {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    private Function<Long, Long> worryFunctionPart1(String line) {
+    private UnaryOperator<Long> worryFunctionPart1(String line) {
         String[] operation = line.split("old ")[1].split(" ");
         if (operation[0].equals("+")) {
             return n -> (n + parseLong(operation[1])) / 3;
@@ -71,10 +73,9 @@ public class KeepAway {
         } else {
             return n -> (n * parseLong(operation[1])) / 3;
         }
-
     }
 
-    private Function<Long, Long> worryFunctionPart2(String line) {
+    private UnaryOperator<Long> worryFunctionPart2(String line) {
         String[] operation = line.split("old ")[1].split(" ");
         if (operation[0].equals("+")) {
             return n -> (n + parseLong(operation[1])) % masterDivider;
@@ -83,7 +84,6 @@ public class KeepAway {
         } else {
             return n -> (n * parseLong(operation[1])) % masterDivider;
         }
-
     }
 
     @Override
@@ -91,7 +91,7 @@ public class KeepAway {
         return "KeepAway{" + "monkeys=" + monkeys + '}';
     }
 
-    long simulateKeepAway(int rounds, Function<String, Function<Long, Long>> worryFunction) {
+    long simulateKeepAway(int rounds, Function<String, UnaryOperator<Long>> worryFunction) {
         
         monkeys = populateMonkeyTroop(worryFunction);
         for (int n = 0; n < rounds; n++) {
@@ -106,12 +106,12 @@ public class KeepAway {
         return troop.stream()
                 .mapToLong(m -> m.business)
                 .sorted()
-                .skip(troop.size() - 2)
+                .skip(troop.size() - 2L)
                 .reduce((a, b) -> a * b)
                 .getAsLong();
     }
 
-    private List<Monkey> populateMonkeyTroop(Function<String, Function<Long, Long>> worryFunction) {
+    private List<Monkey> populateMonkeyTroop(Function<String, UnaryOperator<Long>> worryFunction) {
         var monkeysInConstruction = makeMonkeys(input, worryFunction);
         monkeysInConstruction.forEach(monkey -> monkey.addTroop(monkeysInConstruction));
         masterDivider = monkeysInConstruction.stream()

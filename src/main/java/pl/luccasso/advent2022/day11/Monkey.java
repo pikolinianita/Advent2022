@@ -6,6 +6,7 @@ package pl.luccasso.advent2022.day11;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 
 /**
@@ -22,7 +23,7 @@ public class Monkey {
     long business;
     List<Monkey> troop;
     
-    public Monkey( long name, List<Long> items, Function<Long,Long> worry, long divider, long sendIfTrue, long sendIfFalse) {
+    public Monkey( long name, List<Long> items, UnaryOperator<Long> worry, long divider, long sendIfTrue, long sendIfFalse) {
         this.name = name;
         this.items = items;
         this.divider = divider;
@@ -45,10 +46,8 @@ public class Monkey {
             var item = items.remove(0);
             item = worry.apply(item);
             if (item % divider == 0){
-               //  System.out.println(sendIfTrue + "  " + item);
                 troop.get(sendIfTrue).give(item);
             } else {
-            //    System.out.println(sendIfFalse + "  " + item);
                 troop.get(sendIfFalse).give(item);
             }
             business++;

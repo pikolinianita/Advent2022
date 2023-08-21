@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nauczyciel
  */
-public class KeepAwayTest {
+class KeepAwayTest {
 
     String testInput = """
                 Monkey 0:
@@ -100,25 +100,25 @@ public class KeepAwayTest {
                            If false: throw to monkey 1""";
 
     @Test
-    public void testTestMethod() {
+    void testTestMethod() {
         var result = new KeepAway(testInput);
         assertThat(result.part1(20)).isEqualTo(10605);
     }
 
     @Test
-    public void testRealMethod() {
+    void testRealMethod() {
         var result = new KeepAway(realInput);
         assertThat(result.part1(20)).isEqualTo(54752);
     }
 
     @Test
-    public void testTestMethodPart2() {
+    void testTestMethodPart2() {
         var result = new KeepAway(testInput);
         assertThat(result.part2(10000)).isEqualTo(2713310158L);
     }
 
     @Test
-    public void testRealMethodPart2() {
+    void testRealMethodPart2() {
         var result = new KeepAway(realInput);
         assertThat(result.part2(10000)).isEqualTo(13606755504L);
     }
