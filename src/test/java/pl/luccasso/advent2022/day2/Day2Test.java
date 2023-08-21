@@ -12,17 +12,17 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Nauczyciel
  */
-public class Day2Test {
+class Day2Test {
 
     @Test
-    public void testSimple() {
+    void testSimple() {
         assertThat(Day2.score("A Y")).isEqualTo(8);
         assertThat(Day2.score("B X")).isEqualTo(1);
         assertThat(Day2.score("C Z")).isEqualTo(6);
     }
 
     @Test
-    public void testAll() {
+    void testAll() {
         var source = List.<String>of("A Y", "B X", "C Z");
         assertThat(new Day2("_").calculate(source, Day2::score)).isEqualTo(15);
     }
@@ -35,7 +35,7 @@ public class Day2Test {
     }
 
     @Test
-    public void testAllPart2() {
+    void testAllPart2() {
         var source = List.<String>of("A Y", "B X", "C Z");
         assertThat(new Day2("_").calculate(source, Day2::score2)).isEqualTo(12);
     }

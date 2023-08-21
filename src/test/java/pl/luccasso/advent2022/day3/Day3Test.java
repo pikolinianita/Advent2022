@@ -4,7 +4,6 @@
  */
 package pl.luccasso.advent2022.day3;
 
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
@@ -13,7 +12,7 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Nauczyciel
  */
-public class Day3Test {
+class Day3Test {
 
     List<String> testSource = List.of(
             "vJrwpWtwJgWrhcsFMMfFFhFp",
@@ -50,9 +49,4 @@ public class Day3Test {
         assertThat(result).isEqualTo(70);
     }
      
-    @Test
-    void repl(){
-        System.out.println("something".split("").length);
-        System.out.println(Arrays.toString("something".split("")));
-    }
 }

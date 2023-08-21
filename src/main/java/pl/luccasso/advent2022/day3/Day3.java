@@ -52,8 +52,10 @@ public class Day3 {
     } 
 
     private Day3 loadFile() throws FileNotFoundException {
-        input = new Scanner(new File(path)).tokens().toList();
-        return this;
+        try (var sc = new Scanner(new File(path))) {
+            input = sc.tokens().toList();
+            return this;
+        }
     }
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -87,10 +89,10 @@ public class Day3 {
         return sum;
     }
 
-    int countTeamBadge(String Elf1, String Elf2, String Elf3) {
-        var set = charsSet(Elf1);
-        var set2 = commonLetters(set, Elf2);
-        var set3 = commonLetters(set2, Elf3);
+    int countTeamBadge(String elf1, String elf2, String elf3) {
+        var set = charsSet(elf1);
+        var set2 = commonLetters(set, elf2);
+        var set3 = commonLetters(set2, elf3);
         return getPriority(set3.iterator().next().codePointAt(0));
     }
 
